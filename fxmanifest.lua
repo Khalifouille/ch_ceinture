@@ -20,5 +20,8 @@ dependencies {
 }
 
 files {
-    'images/image.png'
+    'image.png',
+    'ui.html'
 }
+
+ui_page 'ui.html'

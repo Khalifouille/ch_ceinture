@@ -1,5 +1,6 @@
 local isSeatbeltOn = false
 local showSeatbeltIcon = false
+local blinkSeatbeltIcon = false
 
 function toggleSeatbelt()
     local playerPed = PlayerPedId()
@@ -12,15 +13,16 @@ function toggleSeatbelt()
                 multiline = true,
                 args = {"System", "Ceinture attachée"}
             })
-            showSeatbeltIcon = true
+            showSeatbeltIcon = false
         else
             TriggerEvent('chat:addMessage', {
                 color = { 255, 0, 0},
                 multiline = true,
                 args = {"System", "Ceinture détachée"}
             })
-            showSeatbeltIcon = false
+            showSeatbeltIcon = true
         end
+        SendNuiMessage(json.encode({ type = 'toggleSeatbeltIcon', show = showSeatbeltIcon }))
     end
 end
 
@@ -32,20 +34,16 @@ Citizen.CreateThread(function()
     while true do
         Citizen.Wait(0)
         local playerPed = PlayerPedId()
-        if isSeatbeltOn and IsPedInAnyVehicle(playerPed, false) then
-            local vehicle = GetVehiclePedIsIn(playerPed, false)
-            if GetEntitySpeed(vehicle) > 20.0 then
-                SetPedConfigFlag(playerPed, 32, true)
+        if IsPedInAnyVehicle(playerPed, false) then
+            if not isSeatbeltOn then
+                showSeatbeltIcon = true
             else
-                SetPedConfigFlag(playerPed, 32, false)
+                showSeatbeltIcon = false
             end
         else
-            SetPedConfigFlag(playerPed, 32, false)
+            showSeatbeltIcon = false
         end
-
-        if showSeatbeltIcon then
-            DrawSeatbeltIcon()
-        end
+        SendNuiMessage(json.encode({ type = 'toggleSeatbeltIcon', show = showSeatbeltIcon }))
     end
 end)
 
@@ -61,6 +59,7 @@ Citizen.CreateThread(function()
                 multiline = true,
                 args = {"System", "Ceinture détachée automatiquement"}
             })
+            SendNuiMessage(json.encode({ type = 'toggleSeatbeltIcon', show = false }))
         end
     end
 end)
@@ -81,29 +80,3 @@ Citizen.CreateThread(function()
     end
 end)
 
-function DrawSeatbeltIcon()
-    local dict = "image"
-    local icon = "image"
-
-    if not HasStreamedTextureDictLoaded(dict) then
-        RequestStreamedTextureDict(dict, true)
-        while not HasStreamedTextureDictLoaded(dict) do
-            Citizen.Wait(0)
-        end
-    end
-
-    if HasStreamedTextureDictLoaded(dict) then
-        local x, y = 0.9, 0.9
-        local width, height = 0.1, 0.1
-
-        DrawSprite(dict, icon, x, y, width, height, 0.0, 255, 255, 255, 255)
-    else
-    end
-end
-
-Citizen.CreateThread(function()
-    while true do
-        Citizen.Wait(0)
-        DrawSeatbeltIcon()
-    end
-end)

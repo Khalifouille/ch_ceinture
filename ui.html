@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seatbelt Icon</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background: transparent;
+        }
+        #seatbeltIcon {
+            position: absolute;
+            top: 90%;
+            left: 90%;
+            width: 10%;
+            height: 10%;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <img id="seatbeltIcon" src="nui://ch_ceinture/image.png" alt="Seatbelt Icon">
+    <script>
+        window.addEventListener('message', function(event) {
+            const data = event.data;
+            const seatbeltIcon = document.getElementById('seatbeltIcon');
+            if (data.type === 'toggleSeatbeltIcon') {
+                seatbeltIcon.style.display = data.show ? 'block' : 'none';
+            }
+        });
+    </script>
+</body>
+</html>
