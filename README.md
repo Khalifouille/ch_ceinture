@@ -47,7 +47,3 @@ Les contributions sont les bienvenues ! Veuillez soumettre vos suggestions via d
 
 - Ce script nécessite l'intégration avec ESX et ne fonctionnera pas correctement sans lui.
 - Assurez-vous que les permissions de commandes sont correctement configurées pour éviter tout abus.
-
-## Licence
-
-Ce projet est sous licence MIT. Consultez le fichier `LICENSE` pour plus d'informations.
