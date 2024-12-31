@@ -2,6 +2,8 @@ ESX = exports['es_extended']:getSharedObject()
 
 local seatbeltStatus = {}
 
+print("Bonne année")
+
 RegisterServerEvent('ch_ceinture:saveSeatbeltStatus')
 AddEventHandler('ch_ceinture:saveSeatbeltStatus', function(playerId, status)
     seatbeltStatus[playerId] = status
