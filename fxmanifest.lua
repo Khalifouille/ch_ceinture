@@ -18,3 +18,7 @@ client_scripts {
 dependencies {
     'es_extended'
 }
+
+files {
+    'images/image.png'
+}

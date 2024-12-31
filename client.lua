@@ -1,4 +1,5 @@
 local isSeatbeltOn = false
+local showSeatbeltIcon = false
 
 function toggleSeatbelt()
     local playerPed = PlayerPedId()
@@ -11,12 +12,14 @@ function toggleSeatbelt()
                 multiline = true,
                 args = {"System", "Ceinture attachée"}
             })
+            showSeatbeltIcon = true
         else
             TriggerEvent('chat:addMessage', {
                 color = { 255, 0, 0},
                 multiline = true,
                 args = {"System", "Ceinture détachée"}
             })
+            showSeatbeltIcon = false
         end
     end
 end
@@ -38,6 +41,10 @@ Citizen.CreateThread(function()
             end
         else
             SetPedConfigFlag(playerPed, 32, false)
+        end
+
+        if showSeatbeltIcon then
+            DrawSeatbeltIcon()
         end
     end
 end)
@@ -65,16 +72,38 @@ Citizen.CreateThread(function()
         if IsPedInAnyVehicle(playerPed, false) and not isSeatbeltOn then
             Citizen.Wait(3000)
             if IsPedInAnyVehicle(playerPed, false) and not isSeatbeltOn then
-                --TriggerEvent('chat:addMessage', {
-                --    color = { 255, 0, 0},
-                --    multiline = true,
-                --    args = {"System", "Bip bip bip! Mettez votre ceinture!"}
-                --})
                 for i = 1, 5 do
                     PlaySoundFrontend(-1, "TIMER_STOP", "HUD_MINI_GAME_SOUNDSET", true)
                     Citizen.Wait(1000)
                 end
             end
         end
+    end
+end)
+
+function DrawSeatbeltIcon()
+    local dict = "image"
+    local icon = "image"
+
+    if not HasStreamedTextureDictLoaded(dict) then
+        RequestStreamedTextureDict(dict, true)
+        while not HasStreamedTextureDictLoaded(dict) do
+            Citizen.Wait(0)
+        end
+    end
+
+    if HasStreamedTextureDictLoaded(dict) then
+        local x, y = 0.9, 0.9
+        local width, height = 0.1, 0.1
+
+        DrawSprite(dict, icon, x, y, width, height, 0.0, 255, 255, 255, 255)
+    else
+    end
+end
+
+Citizen.CreateThread(function()
+    while true do
+        Citizen.Wait(0)
+        DrawSeatbeltIcon()
     end
 end)
