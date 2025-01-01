@@ -71,10 +71,12 @@ Citizen.CreateThread(function()
         if IsPedInAnyVehicle(playerPed, false) and not isSeatbeltOn then
             Citizen.Wait(3000)
             if IsPedInAnyVehicle(playerPed, false) and not isSeatbeltOn then
+                SendNuiMessage(json.encode({ type = 'toggleSeatbeltIcon', show = true }))
                 for i = 1, 5 do
                     PlaySoundFrontend(-1, "TIMER_STOP", "HUD_MINI_GAME_SOUNDSET", true)
                     Citizen.Wait(1000)
                 end
+                SendNuiMessage(json.encode({ type = 'toggleSeatbeltIcon', show = false }))
             end
         end
     end
