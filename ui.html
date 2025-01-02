@@ -32,32 +32,5 @@
             }
         });
     </script>
-    <script>
-        let blinkInterval;
-    
-        function startBlinking() {
-            const seatbeltIcon = document.getElementById('seatbeltIcon');
-            blinkInterval = setInterval(() => {
-                seatbeltIcon.style.display = (seatbeltIcon.style.display === 'none') ? 'block' : 'none';
-            }, 2000); // Change interval to 2000ms
-        }
-    
-        function stopBlinking() {
-            clearInterval(blinkInterval);
-            const seatbeltIcon = document.getElementById('seatbeltIcon');
-            seatbeltIcon.style.display = 'none';
-        }
-    
-        window.addEventListener('message', function(event) {
-            const data = event.data;
-            if (data.type === 'toggleSeatbeltIcon') {
-                if (data.show) {
-                    startBlinking();
-                } else {
-                    stopBlinking();
-                }
-            }
-        });
-    </script>
 </body>
 </html>
