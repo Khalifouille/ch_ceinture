@@ -1,3 +1,5 @@
+ESX = exports['es_extended']:getSharedObject()
+
 local isSeatbeltOn = false
 local showSeatbeltIcon = false
 
@@ -24,6 +26,12 @@ function toggleSeatbelt()
         SendNuiMessage(json.encode({ type = 'toggleSeatbeltIcon', show = showSeatbeltIcon }))
     end
 end
+
+RegisterKeyMapping('ceinture', 'Retirer la ceinture', 'keyboard', 'K')
+
+ESX.RegisterInput('ceinture', 'Retirer la ceinture', 'keyboard', 'K', function()
+    toggleSeatbelt()
+end, nil)
 
 RegisterCommand('ceinture', function()
     toggleSeatbelt()
